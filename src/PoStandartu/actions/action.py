@@ -1,8 +1,8 @@
-from PoStandartu.http_utils import Request
+from PoStandartu.http_utils import RequestPattern
 
 class Action:
     def __init__(self, pattern, action):
-        self.pattern = Request(pattern)
+        self.pattern = RequestPattern.create(pattern)
         self.action = action
     
     def match(self, request):

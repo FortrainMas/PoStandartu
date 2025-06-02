@@ -1,7 +1,7 @@
 import socket
 import selectors
 
-from client import Client
+from .client import Client
 
 class ServerSocket:
     def __init__(self, host, port, server):

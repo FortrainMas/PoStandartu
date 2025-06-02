@@ -7,5 +7,5 @@ class Actions():
 
     def run_action(self, request):
         for action in self.actions:
-            if action.pattern.match(request):
+            if action.match(request):
                 return action.action(request)

@@ -24,11 +24,11 @@ class StaticAction:
         self.static_path = static_path
 
     def match(self, request):
-        real_path = os.path.join(self.static_path, request.path)
+        real_path = os.path.join(self.static_path, *request.path_params)
         return os.path.exists(real_path)
     
     def action(self, request):
-        real_path = os.path.join(self.static_path, request.path)
+        real_path = os.path.join(self.static_path, *request.path_params)
         if os.path.isdir(real_path):
             return Response(status_code=200, content=return_static_directory(real_path), headers={"Content-Type": "text/html"})
         else:

@@ -23,9 +23,9 @@ class Client:
             if b"\r\n\r\n" in self.recv_buffer:
                 headers, _ = self.recv_buffer.split(b"\r\n\r\n", 1)
                 self.request = Request(headers.decode())
-                response = self.server.actions.run_action(self)
+                response = self.server.actions.run_action(self.request)
                 self.send_buffer = response.encode()
-                self.selector.register(self.sock, selectors.EVENT_WRITE, data=self)
+                self.selector.modify(self.sock, selectors.EVENT_WRITE, data=self)
         except ConnectionResetError:
             self.destroy()
         return None
@@ -34,7 +34,8 @@ class Client:
         if self.send_buffer:
             sent = self.sock.send(self.send_buffer)
             self.send_buffer = self.send_buffer[sent:]
-        return len(self.send_buffer) == 0
+        else:
+            self.destroy()
     
     def destroy(self):
         self.selector.unregister(self.sock)

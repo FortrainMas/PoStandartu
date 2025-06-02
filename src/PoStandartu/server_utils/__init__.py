@@ -1,1 +1,1 @@
-from server_socket import ServerSocket
+from .server_socket import ServerSocket

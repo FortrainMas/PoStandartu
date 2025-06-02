@@ -6,15 +6,16 @@ class Request:
         self.method = method
         self.path = path
         self.version = version
-        self.path, self.params = self.parse_url(path)
+        self.path, self.params = Request.parse_url(path)
+        self.path_params = self.path.split('/')[1:]
 
     def match(self, request):
         this_keys = set(self.params.keys())
         other_keys = set(request.params.keys())
         return self.path == request.path and this_keys == other_keys
         
-
-    def parse_url(self, url):
+    @staticmethod
+    def parse_url(url):
         if '?' in url:
             path, query_string = url.split('?', 1)
         else:
@@ -30,3 +31,9 @@ class Request:
                     params[pair] = None
 
         return path, params
+    
+
+class RequestPattern:
+    @staticmethod
+    def create(text):
+        return Request(f"GET {text} HTTP/1.1\r\n\r\n")

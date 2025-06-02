@@ -1,2 +1,2 @@
-from request import Request
-from response import Response
+from .request import Request, RequestPattern
+from .response import Response
